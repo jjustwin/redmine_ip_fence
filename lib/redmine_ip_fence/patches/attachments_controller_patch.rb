@@ -51,15 +51,20 @@ module RedmineIpFence
       end
 
       def ip_matched?(ip)
-        ranges = Array(Setting.plugin_redmine_ip_fence[:ip_ranges])
-        Rails.logger.info "IP Fence: Checking IP #{ip} against ranges: #{ranges.inspect}"
+        # 获取IP段配置并处理为数组
+        ip_ranges = Setting.plugin_redmine_ip_fence[:ip_ranges]
+        ip_ranges = ip_ranges.is_a?(String) ? ip_ranges.split("\n").map(&:strip).reject(&:empty?) : Array(ip_ranges)
         
-        ranges.any? do |range|
-          # 将IP段转换为正则表达式
-          pattern = range.to_s.gsub('.', '\.').gsub('*', '[0-9]+')
+        Rails.logger.info "IP Fence: Checking IP #{ip} against ranges: #{ip_ranges.inspect}"
+        
+        ip_ranges.any? do |range|
+          next false if range.blank?
+          
+          # 将每个IP段单独转换为正则表达式
+          pattern = range.strip.gsub('.', '\.').gsub('*', '[0-9]+')
           regex = Regexp.new("^#{pattern}$")
           matched = ip.match?(regex)
-          Rails.logger.info "IP Fence: Checking #{ip} against #{range} (regex: #{regex.source}) => #{matched}"
+          Rails.logger.info "IP Fence: Checking #{ip} against '#{range}' (regex: #{regex.source}) => #{matched}"
           matched
         end.tap do |result|
           Rails.logger.info "IP Fence: Final match result for #{ip}: #{result}"
