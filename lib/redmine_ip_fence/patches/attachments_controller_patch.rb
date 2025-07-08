@@ -52,9 +52,17 @@ module RedmineIpFence
 
       def ip_matched?(ip)
         ranges = Array(Setting.plugin_redmine_ip_fence[:ip_ranges])
+        Rails.logger.info "IP Fence: Checking IP #{ip} against ranges: #{ranges.inspect}"
+        
         ranges.any? do |range|
-          pattern = range.to_s.gsub('.', '\.').gsub('*', '\d+')
-          ip.match?(/^#{pattern}$/)
+          # 将IP段转换为正则表达式
+          pattern = range.to_s.gsub('.', '\.').gsub('*', '[0-9]+')
+          regex = Regexp.new("^#{pattern}$")
+          matched = ip.match?(regex)
+          Rails.logger.info "IP Fence: Checking #{ip} against #{range} (regex: #{regex.source}) => #{matched}"
+          matched
+        end.tap do |result|
+          Rails.logger.info "IP Fence: Final match result for #{ip}: #{result}"
         end
       end
     end
