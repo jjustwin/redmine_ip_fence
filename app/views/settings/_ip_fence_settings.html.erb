@@ -1,0 +1,7 @@
+<div class="box tabular">
+  <p>
+    <%= label_tag 'settings[ip_ranges]', l(:label_ip_ranges) %>
+    <%= text_area_tag 'settings[ip_ranges]', Array(@settings[:ip_ranges]).join("\n"), rows: 5, cols: 50 %>
+    <em class="info"><%= l(:text_ip_ranges_help) %></em>
+  </p>
+</div>
