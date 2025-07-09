@@ -6,7 +6,8 @@ module RedmineIpFence
         
         base.class_eval do
           after_action :record_uploader_ip, only: [:upload]
-          before_action :check_download_permission, only: [:download]
+          before_action :load_attachment, only: [:show, :download]
+          before_action :check_access_permission, only: [:show, :download]
         end
         
         Rails.logger.info "IP Fence: Successfully prepended to AttachmentsController"
@@ -29,8 +30,12 @@ module RedmineIpFence
         Rails.logger.info "IP Fence: Updated attachment #{@attachment.id} with IP #{@attachment.ip}, sensitive: #{@attachment.is_sensitive}"
       end
 
-      def check_download_permission
-        # 当附件ip为空或is_sensitive为空时，允许下载
+      def load_attachment
+        @attachment ||= Attachment.find(params[:id])
+      end
+
+      def check_access_permission
+        # 当附件ip为空或is_sensitive为空时，允许访问
         attachment_ip_empty = @attachment.ip.nil? || @attachment.ip.to_s.empty?
         return true if attachment_ip_empty || @attachment.is_sensitive.nil?
         
