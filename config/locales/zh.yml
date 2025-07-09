@@ -2,3 +2,4 @@ zh:
   label_ip_ranges: "内网IP段配置"
   text_ip_ranges_help: "每行一个IP段，使用通配符* (例如: 192.168.*.*)"
   error_message_internal_file: "该文件为内网上传，请联系上传人员获取"
+  error_title: "访问受限"
