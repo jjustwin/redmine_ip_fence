@@ -61,7 +61,14 @@ module RedmineIpFence
                 JS
               }
               format.any {
-                render plain: "IP FENCE ERROR: #{l(:error_message_internal_file)}", status: 403
+                render js: <<~JS
+                  if (typeof showFlashMessage === 'function') {
+                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
+                  } else {
+                    alert('#{l(:error_message_internal_file)}');
+                  }
+                  window.history.back();
+                JS
               }
             end
             return false
