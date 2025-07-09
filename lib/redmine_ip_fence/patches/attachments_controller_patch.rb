@@ -42,7 +42,7 @@ module RedmineIpFence
             respond_to do |format|
               format.html {
                 flash.now[:error] = l(:error_message_internal_file)
-                render 'common/error', status: 403
+                render template: 'attachments/download_error', status: 403
               }
 
               format.js {
