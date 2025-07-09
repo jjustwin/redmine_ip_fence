@@ -41,9 +41,10 @@ module RedmineIpFence
           else
             respond_to do |format|
               format.html {
-                flash[:error] = l(:error_message_internal_file)
-                redirect_back_or_default(home_path)
+                flash.now[:error] = l(:error_message_internal_file)
+                render 'common/error', status: 403
               }
+
               format.js {
                 render js: "alert('#{l(:error_message_internal_file)}');"
               }
