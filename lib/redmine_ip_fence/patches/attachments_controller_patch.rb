@@ -39,38 +39,7 @@ module RedmineIpFence
           if ip_matched?(user_ip)
             return true
           else
-            respond_to do |format|
-              format.html {
-                # 返回JS响应以在前端处理
-                render js: <<~JS
-                  if (typeof showFlashMessage === 'function') {
-                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
-                  } else {
-                    alert('#{l(:error_message_internal_file)}');
-                  }
-                  window.history.back();
-                JS
-              }
-              format.js {
-                render js: <<~JS
-                  if (typeof showFlashMessage === 'function') {
-                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
-                  } else {
-                    alert('#{l(:error_message_internal_file)}');
-                  }
-                JS
-              }
-              format.any {
-                render js: <<~JS
-                  if (typeof showFlashMessage === 'function') {
-                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
-                  } else {
-                    alert('#{l(:error_message_internal_file)}');
-                  }
-                  window.history.back();
-                JS
-              }
-            end
+            render_error message: l(:error_message_internal_file), status: 403
             return false
           end
         end
