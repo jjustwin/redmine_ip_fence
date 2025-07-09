@@ -41,15 +41,27 @@ module RedmineIpFence
           else
             respond_to do |format|
               format.html {
-                flash.now[:error] = l(:error_message_internal_file)
-                render template: 'attachments/download_error', status: 403
+                # 返回JS响应以在前端处理
+                render js: <<~JS
+                  if (typeof showFlashMessage === 'function') {
+                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
+                  } else {
+                    alert('#{l(:error_message_internal_file)}');
+                  }
+                  window.history.back();
+                JS
               }
-
               format.js {
-                render js: "alert('#{l(:error_message_internal_file)}');"
+                render js: <<~JS
+                  if (typeof showFlashMessage === 'function') {
+                    showFlashMessage('error', '#{l(:error_message_internal_file)}');
+                  } else {
+                    alert('#{l(:error_message_internal_file)}');
+                  }
+                JS
               }
               format.any {
-                render plain: l(:error_message_internal_file), status: 403
+                render plain: "IP FENCE ERROR: #{l(:error_message_internal_file)}", status: 403
               }
             end
             return false
