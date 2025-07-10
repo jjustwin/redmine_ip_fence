@@ -1,6 +1,19 @@
-<div class="contextual">
+<div class="errorExplanation">
   <h2><%= l(:error_title) %></h2>
-  <div class="warning">
-    <%= flash[:error] %>
-  </div>
+  <p><%= message %></p>
+  <p><%= l(:error_contact_uploader) %></p>
 </div>
+
+<style>
+  .errorExplanation {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #f88;
+    background-color: #fdd;
+    border-radius: 4px;
+  }
+  .errorExplanation h2 {
+    color: #b00;
+    margin-top: 0;
+  }
+</style>
