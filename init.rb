@@ -4,11 +4,11 @@ require_relative 'lib/redmine_ip_fence/patches/attachments_controller_patch'
 
 Redmine::Plugin.register :redmine_ip_fence do
   name 'Redmine IP Fence Plugin'
-  author 'Your Name'
+  author 'jjsutwin'
   description 'Attachment network isolation plugin for Redmine'
   version '0.1.0'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'https://github.com/jjustwin/redmine_ip_fence'
+  author_url 'https://github.com/jjustwin'
 
   requires_redmine version_or_higher: '5.0.0'
   settings default: { 'ip_ranges' => [] }, partial: 'settings/ip_fence_settings'
