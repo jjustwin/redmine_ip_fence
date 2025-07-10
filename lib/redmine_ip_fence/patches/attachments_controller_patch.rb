@@ -45,7 +45,8 @@ module RedmineIpFence
               return true
             else
               if action_name == 'show'
-                render_error message: l(:error_message_internal_file), status: 403
+                # render_error message: l(:error_message_internal_file), status: 403
+                render 'attachments/download_error', locals: { message: l(:error_message_internal_file) }, status: 403
               else
                 render 'attachments/download_error', locals: { message: l(:error_message_internal_file) }, status: 403
               end
