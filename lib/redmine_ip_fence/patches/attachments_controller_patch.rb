@@ -44,7 +44,9 @@ module RedmineIpFence
           if ip_matched?(user_ip)
             return true
           else
-            render_error message: l(:error_message_internal_file), status: 403
+            # render_error message: l(:error_message_internal_file), status: 403
+            render_error message: l(:error_message_internal_file), status: 403, formats: [:html]
+
             return false
           end
         end
