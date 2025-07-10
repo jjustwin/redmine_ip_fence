@@ -40,16 +40,18 @@ module RedmineIpFence
         return true if attachment_ip_empty || @attachment.is_sensitive.nil?
         
         # 仅当附件标记为敏感且访问者IP不匹配时才拒绝
-        if @attachment.is_sensitive
-          if ip_matched?(user_ip)
-            return true
-          else
-            # render_error message: l(:error_message_internal_file), status: 403
-            render_error message: l(:error_message_internal_file), status: 403, formats: [:html]
-
-            return false
+          if @attachment.is_sensitive
+            if ip_matched?(user_ip)
+              return true
+            else
+              if action_name == 'show'
+                render_error message: l(:error_message_internal_file), status: 403
+              else
+                render 'attachments/download_error', locals: { message: l(:error_message_internal_file) }, status: 403
+              end
+              return false
+            end
           end
-        end
         return true
       end
 
