@@ -74,7 +74,7 @@ module RedmineIpFence
           pattern = range.strip.gsub('.', '\.').gsub('*', '[0-9]+')
           regex = Regexp.new("^#{pattern}$")
           matched = ip.match?(regex)
-          Rails.logger.info "IP Fence: Checking #{ip} against '#{range}' (regex: #{regex.source}) => #{matched}"
+          # Rails.logger.info "IP Fence: Checking #{ip} against '#{range}' (regex: #{regex.source}) => #{matched}"
           matched
         end.tap do |result|
           Rails.logger.info "IP Fence: Final match result for #{ip}: #{result}"
