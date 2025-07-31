@@ -1,3 +1,4 @@
+[![简体中文](https://img.shields.io/badge/简体中文-点击查看-orange)](README_ZH.md)
 # Redmine IP Fence Plugin
 
 ## Features

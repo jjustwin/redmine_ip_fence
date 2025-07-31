@@ -1,3 +1,4 @@
+[![English](https://img.shields.io/badge/English-Click-yellow)](README.md)
 # Redmine IP Fence Plugin
 
 ## 功能说明
